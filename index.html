@@ -4,28 +4,29 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>replit</title>
+    <title>Swipe Left</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
     <div id="container">
-        <form id="input-form" style="display: none;">
-            <textarea id="input-text" placeholder="Enter multiple lines of text here"></textarea>
+        <div id="input-form" class="input-form">
+            <label for="input-text">Enter multiple lines of text here</label>
+            <textarea id="input-text" name="input-text"></textarea>
             <button id="submit-button">Submit</button>
-        </form>
+        </div>
         <div id="card-container" style="display: none;">
-            <div id="card">
-                <p id="card-text"></p>
-                <button id="left-button">Accept</button>
-                <button id="right-button">Decline</button>
+            <div class="card">
+                <p class="card-text" id="card-text"></p>
+                <button class="circle-button accept-button" id="left-button">👍</button>
+                <button class="circle-button decline-button" id="right-button">👎</button>
             </div>
-            <button id="back-button">Back</button>
-            <button id="results-button">Show results</button>
+            <button class="button" id="back-button">Back</button>
+            <button class="button" id="results-button">Show results</button>
         </div>
         <div id="result-container" style="display: none;">
-            <button id="back-button-2">Back</button>
-            <button id="reset-button">Reset</button>
+            <button class="button" id="back-button-2">Back</button>
+            <button class="button" id="reset-button">Reset</button>
             <ul id="results-list"></ul>
         </div>
     </div>
