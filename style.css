@@ -31,7 +31,6 @@
 /* Make the card look like a card with shadow and borders */
 .card {
     width: 300px;
-    /* height: 200px; */
     margin: 20px auto;
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -51,6 +50,7 @@
     font-size: 24px;
     position: relative;
     bottom: 10px;
+    text-align: center;
 }
 
 /* Use green for accept and red for decline */
