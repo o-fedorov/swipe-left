@@ -70,6 +70,7 @@ submitButton.addEventListener("click", function(event) {
     showCard();
     // Call the function to display the first line on startup
     displayLine();
+    saveProgress();
 });
 
 // Create a function that will display the current line on the card
@@ -191,15 +192,19 @@ function loadProgress() {
     // If the value is not null, parse it to an array and assign it to the lineObjects variable
     if (lineObjectsJSON) {
         lineObjects = JSON.parse(lineObjectsJSON);
-        var currentIndexString = localStorage.getItem("currentIndex");
-        // If the value is not null, parse it to a number and assign it to the currentIndex variable
-        if (currentIndexString) {
-            currentIndex = parseInt(currentIndexString);
-        }
+    }
+
+    var currentIndexString = localStorage.getItem("currentIndex");
+    // If the value is not null, parse it to a number and assign it to the currentIndex variable
+    if (currentIndexString) {
+        currentIndex = parseInt(currentIndexString);
+    }
+
+    if (lineObjects.length == 0) {
+        showForm();
+    } else {
         showCard();
         displayLine();
-    } else {
-        showForm();
     }
 }
 
