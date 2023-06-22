@@ -196,6 +196,7 @@ function loadProgress() {
         if (currentIndexString) {
             currentIndex = parseInt(currentIndexString);
         }
+        showCard();
     } else {
         showForm();
     }
