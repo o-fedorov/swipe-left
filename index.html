@@ -10,23 +10,23 @@
 
 <body>
     <div id="container">
-        <div id="input-form" class="input-form">
+        <div id="input-form" class="l2-container input-form">
             <label for="input-text">Enter multiple lines of text here</label>
             <textarea id="input-text" name="input-text"></textarea>
-            <button id="submit-button">Submit</button>
+            <button id="submit-button" class="button" type="submit">Submit</button>
         </div>
-        <div id="card-container" style="display: none;">
-            <div class="card">
+        <div id="card-container" class="l2-container">
+            <div id="card" class="card">
                 <p class="card-text" id="card-text"></p>
-                <button class="circle-button accept-button" id="left-button">👍</button>
-                <button class="circle-button decline-button" id="right-button">👎</button>
+                <button class="circle-button accept-button" id="left-button" type="submit">👍</button>
+                <button class="circle-button decline-button" id="right-button" type="submit">👎</button>
             </div>
-            <button class="button" id="back-button">Back</button>
-            <button class="button" id="results-button">Show results</button>
+            <button class="button" id="back-button" type="button">Back</button>
+            <button class="button" id="results-button" type="button">Show results</button>
         </div>
-        <div id="result-container" style="display: none;">
-            <button class="button" id="back-button-2">Back</button>
-            <button class="button" id="reset-button">Reset</button>
+        <div id="result-container" class="l2-container">
+            <button class="button" id="back-button-2" type="button">Back</button>
+            <button class="button" id="reset-button" type="button">Reset</button>
             <ul id="results-list"></ul>
         </div>
     </div>

@@ -3,12 +3,12 @@ var inputText = document.getElementById("input-text");
 var submitButton = document.getElementById("submit-button");
 var inputForm = document.getElementById("input-form");
 var cardContainer = document.getElementById("card-container");
+var card = document.getElementById("card");
 var resultContainer = document.getElementById("result-container");
 var cardText = document.getElementById("card-text");
 var leftButton = document.getElementById("left-button");
 var rightButton = document.getElementById("right-button");
 var resultsList = document.getElementById("results-list");
-var resultContainer = document.getElementById("result-container");
 var resultsButton = document.getElementById("results-button");
 var backButton = document.getElementById("back-button");
 var backButton2 = document.getElementById("back-button-2");
@@ -22,6 +22,10 @@ var lineObjects = [];
 
 // Create a variable to store an index that indicates the current line being displayed on the card
 var currentIndex = 0;
+
+var touchstartX = 0;
+var gestureStarted = false;
+const touchDelta = 20;
 
 // Create a function that will split the text input into lines and store them in the array of lines
 function splitInput() {
@@ -61,7 +65,7 @@ function showForm() {
 }
 
 // Add an event listener to the submit button that will trigger the functions when clicked
-submitButton.addEventListener("click", function(event) {
+submitButton.addEventListener("click", function (event) {
     // Prevent the default behavior of the button (submitting the form)
     event.preventDefault();
     // Call the function to split the text input into lines
@@ -152,26 +156,26 @@ function displayResults() {
 }
 
 // Add event listeners to both buttons that will trigger their corresponding functions when clicked
-leftButton.addEventListener("click", function() {
+leftButton.addEventListener("click", function () {
     // Call the function to update the status of the current line with left swipe
     updateStatus("left");
     // Call the function to move to the next line
     nextLine();
 });
 
-rightButton.addEventListener("click", function() {
+rightButton.addEventListener("click", function () {
     // Call the function to update the status of the current line with right swipe
     updateStatus("right");
     // Call the function to move to the next line
     nextLine();
 });
 // Add an event listener to the results button that will trigger the displayResults function when clicked
-resultsButton.addEventListener("click", function() {
+resultsButton.addEventListener("click", function () {
     // Call the displayResults function
     displayResults();
 });
 // Add an event listener to the back button that will trigger the previousLine function when clicked
-backButton.addEventListener("click", function() {
+backButton.addEventListener("click", function () {
     // Call the previousLine function
     previousLine();
 });
@@ -221,14 +225,75 @@ function resetProgress() {
     showForm();
 }
 
-resetButton.addEventListener("click", function() {
+resetButton.addEventListener("click", function () {
     // Call the resetProgress function
     resetProgress();
 });
 
-backButton2.addEventListener("click", function() {
+backButton2.addEventListener("click", function () {
     showCard();
 });
+
+function swipeStart(event) {
+    touchstartX = getTouchX(event);
+    gestureStarted = true;
+}
+
+function getTouchX(event) {
+    if (event.screenX === undefined) {
+        return event.changedTouches[0].screenX;
+    } else {
+        return event.screenX;
+    }
+}
+
+function swipeEnd(event) {
+    var delta = getTouchX(event) - touchstartX;
+
+    gestureStarted = false;
+
+    if (delta < -touchDelta) {
+        updateSwipeStatus("left");
+    } else if (delta > touchDelta) {
+        updateSwipeStatus("right");
+    }
+}
+
+
+function swipeFollow(event) {
+    if (!gestureStarted) {
+        return
+    }
+
+    event.preventDefault();
+    var delta = getTouchX(event) - touchstartX;
+    card.style.transform = "translateX(" + delta + "px)";
+}
+
+function updateSwipeStatus(status) {
+    updateStatus(status);
+    var animation = card.animate(
+        [
+            { transform: "translateY(0) " + card.style.transform},
+            { transform: "translateY(300px) " + card.style.transform, opacity: 0 },
+        ], 500
+    );
+    
+    animation.onfinish = (event) => {
+        animation.cancel()
+        nextLine();
+        card.style.transform = "";
+        card.style.opacity = 1;
+    };
+}
+
+card.addEventListener('touchstart', swipeStart);
+card.addEventListener('mousedown', swipeStart);
+card.addEventListener('touchend', swipeEnd);
+card.addEventListener('mouseup', swipeEnd);
+card.addEventListener('mouseleave', swipeEnd);
+card.addEventListener('touchmove', swipeFollow);
+card.addEventListener('mousemove', swipeFollow);
 
 // Call the function to show the input form and hide the card container on startup
 loadProgress();
