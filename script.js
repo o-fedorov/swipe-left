@@ -120,6 +120,7 @@ function displayResults() {
         if (lineObject.status === "accepted") {
             var listItem = document.createElement("li");
             listItem.textContent = lineObject.text;
+            listItem.dataset.index = i
             resultsList.appendChild(listItem);
         }
     }
@@ -127,6 +128,14 @@ function displayResults() {
     resultContainer.style.display = "block";
     cardContainer.style.display = "none";
 }
+
+resultsList.addEventListener("click", function(event) {
+    if (event.target.dataset.index !== undefined) {
+        currentIndex = event.target.dataset.index;
+        showCard();
+        displayLine();
+    }
+});
 
 // Add event listeners to both buttons that will trigger their corresponding functions when clicked
 leftButton.addEventListener("click", function () {
@@ -173,8 +182,15 @@ function loadProgress() {
     if (lineObjects.length == 0) {
         showForm();
     } else {
-        showCard();
-        displayLine();
+        if (currentIndex === undefined) {
+            currentIndex = lineObjects.length - 1;
+        }
+        if (currentIndex < lineObjects.length) {
+            showCard();
+            displayLine();
+        } else {
+            displayResults();
+        }
     }
 }
 
@@ -210,6 +226,10 @@ function getTouchX(event) {
 }
 
 function swipeEnd(event) {
+    if (!gestureStarted) {
+        return
+    }
+
     var delta = getTouchX(event) - touchstartX;
 
     gestureStarted = false;
